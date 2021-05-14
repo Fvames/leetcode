@@ -1,8 +1,7 @@
 package dev.fvames.leetcode.chapter_06_linkedlist;
 
-import com.sun.deploy.util.StringUtils;
-
-import java.util.Arrays;
+import dev.fvames.leetcode.Node;
+import dev.fvames.leetcode.NodeUtils;
 
 /**
  * 回文字符串验证
@@ -14,42 +13,25 @@ import java.util.Arrays;
 public class SinglyLinkedList {
     private Node head;
 
+    public Node getHead() {
+        return head;
+    }
+
     public static void main(String[] args) {
         SinglyLinkedList list = new SinglyLinkedList();
+        NodeUtils nodeUtils = new NodeUtils();
 
         //String[] arr = {"1", "2", "3", "3", "2", "1"};
-        String[] arr = {"1", "2", "3", "4", "3", "2", "1"};
+        int[] arr = {1, 2, 3, 4, 3, 2, 1};
         //String[] arr = {"1", "2", "3", "4", "2", "1"};
-        for (String i : arr) {
-            list.insertTail(i);
+        list.head = nodeUtils.insert(arr);
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr) {
+            sb.append(i).append(",");
         }
 
         boolean isPalindrome = list.palindrome();
-        System.out.printf("数组 %s 是否是回文字符：%s", StringUtils.join(Arrays.asList(arr), ","), isPalindrome);
-    }
-
-
-    class Node {
-        private String data;
-        private Node next;
-
-        public Node(String data, Node next) {
-            this.data = data;
-            this.next = next;
-        }
-    }
-
-    public void insertTail(String data) {
-        Node newNode = new Node(data, null);
-        if (head == null) {
-            head = newNode;
-        } else {
-            Node q = head;
-            while (q.next != null) {
-                q = q.next;
-            }
-            q.next = newNode;
-        }
+        System.out.printf("数组 %s 是否是回文字符：%s", sb.toString(), isPalindrome);
     }
 
     /** 判断是否是回文 */
@@ -108,7 +90,7 @@ public class SinglyLinkedList {
         Node r = right;
 
         while (l != null && r != null) {
-            if (!l.data.equals(r.data)) {
+            if (l.data != r.data) {
                 return false;
             }
 
