@@ -18,10 +18,11 @@ public class LinkedListAlgo {
 
     public static void main(String[] args) {
         NodeUtils nodeUtils = new NodeUtils();
+        //  1.翻转
         int[] arr = {1, 3, 4, 5, 6, 7, 12};
         Node reverseNode = reverse(nodeUtils.insert(arr));
         System.out.println(reverseNode.toString());
-
+        // 2.中环检测
         int[] c0 = {1, 3, 4, 5, 6, 7, 12};
         System.out.println(checkCircle(nodeUtils.insert(c0)));
         Node c1 = new Node(1, null);
@@ -29,10 +30,18 @@ public class LinkedListAlgo {
         Node c3 = new Node(3, c2);
         c1.setNext(c3);
         System.out.println(checkCircle(c1));
-
+        // 3.合并有序链表
         int[] arr1 = {2, 4, 6, 8, 10, 11};
         Node mergeNode = mergeSortedLists(nodeUtils.insert(arr), nodeUtils.insert(arr1));
         System.out.println(mergeNode.toString());
+        // 4.删除倒数第 k 个节点
+        int[] delArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        Node delNode = deleteLastkNode(nodeUtils.insert(delArray), 3);
+        System.out.printf("删除节点后数据：%s \n", delNode.toString());
+        // 5.找到中间节点
+        int[] middleArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        Node middleNode = findMiddleNode(nodeUtils.insert(middleArray));
+        System.out.printf("中间节点的数据为：%s \n", middleNode.data);
     }
 
     public static Node reverse(Node list) {
@@ -125,4 +134,43 @@ public class LinkedListAlgo {
         return node.next;
     }
 
+    public static Node deleteLastkNode(Node list, int k) {
+        // 1.确定慢指针应该走的长度
+        Node fast = list;
+        int i = 0;
+        while (null == fast || i < k) {
+            fast = fast.next;
+            i++;
+        }
+        // 1.1 数据长度不够时退出
+        if (fast == null) {
+            return list;
+        }
+        // 2.确定被删除节点的位置
+        Node slow = list;
+        Node prev = null;
+        while (fast.next != null) {
+            fast = fast.next;
+            prev = slow;
+            slow = slow.next;
+        }
+        // 3.删除
+        if (prev == null) {
+            list = list.next;
+        } else {
+            prev.next = prev.next.next;
+        }
+
+        return list;
+    }
+
+    public static Node findMiddleNode(Node list) {
+        Node slow = list;
+        Node fast = list;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
 }
